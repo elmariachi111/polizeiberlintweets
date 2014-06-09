@@ -5,8 +5,11 @@
             src="https://maps.googleapis.com/maps/api/js?libraries=geometry,visualization&key=AIzaSyCuXcmuT62c-y94gRJxeRkC7MBQsWLLUvU">
     </script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/handlebars/handlebars.min.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/backbone/backbone.js"></script>
     <script src="javascripts/Map.js"></script>
+    <script src="javascripts/Aggregation.js"></script>
     <link rel="stylesheet" href="stylesheets/style.css" />
 </head>
 
@@ -18,14 +21,22 @@
 </div>
 
 <div id="right">
-    <p>test</p>
+    <ul id="aggregations"></ul>
 </div>
 
 <script>
 
-    var map = new Map();
+    $( function() {
+        var map = new Map({ el: document.getElementById("map-canvas") });
+        var aggregations = new AggregationOverview({el: document.getElementById('aggregations')});
+        aggregations.collection.fetch({reset:true});
+        aggregations.listenTo(map, "selected:district", aggregations.districtSelected);
 
-    google.maps.event.addDomListener(window, 'load', map.initialize.bind(map, "map-canvas"));
+    })
+
+</script>
+<script id="tpl-agg" type="text/x-handlebars-template">
+    {{ _id }}: {{ eventsPerHashtag }}
 </script>
 </body>
 

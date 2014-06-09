@@ -1,20 +1,14 @@
-var Map = function() {
-    this.apiHost = 'http://localhost:3000'
-}
+var Map = Backbone.View.extend( {
 
-Map.prototype = {
-    initialize:  function(elId) {
+    initialize:  function() {
+        google.maps.event.addDomListener(window, 'load', this.loadMap.bind(this));
+    },
+    loadMap: function() {
         var mapOptions = {
             center: new google.maps.LatLng(52.54,13.40),
             zoom: 10
         };
-        this.gmap = new google.maps.Map(document.getElementById(elId), mapOptions);
-        this.loadDistricts();
-
-    },
-    loadDistricts: function() {
-        var that = this;
-
+        this.gmap = new google.maps.Map(this.el, mapOptions);
         this.gmap.data.setStyle(function(feature) {
 
             /** @type {google.maps.Data.StyleOptions} */
@@ -28,29 +22,34 @@ Map.prototype = {
 
             return baseFeatureStyle;
         });
+        var that = this;
 
-        $.get( this.apiHost + "/locations").done( function(geojson, state) {
+        $.get( "/locations").done( function(geojson, state) {
             _.forEach(geojson, function (gj) {
                 that.gmap.data.addGeoJson(gj);
             });
-            that.gmap.data.addListener('mouseover', function(event) {
-                that.gmap.data.revertStyle();
-                that.gmap.data.overrideStyle(event.feature, {fillOpacity: 0.8});
-
-            });
-            that.gmap.data.addListener('click', function(event) {
-                var feature = event.feature;
-                var name = feature.getProperty('Name');
-                alert(name);
-            });
-            that.gmap.data.addListener('mouseout', function(event) {
-                that.gmap.data.revertStyle();
-            });
+            that.bindMapEvents();
         } );
 
+    },
+    bindMapEvents: function() {
+        var gmap = this.gmap;
+        var that = this;
+        gmap.data.addListener('mouseover', function(event) {
+            gmap.data.revertStyle();
+            gmap.data.overrideStyle(event.feature, {fillOpacity: 0.8});
 
-        //zoom(map);
+        });
+        gmap.data.addListener('mouseout', function(event) {
+            gmap.data.revertStyle();
+        });
+
+        gmap.data.addListener('click', function(event) {
+            that.trigger("selected:district", {name: event.feature.getProperty('Name'), ll: event.latLng})
+        });
+
     }
-}
+
+});
 
 window.Map = Map;
