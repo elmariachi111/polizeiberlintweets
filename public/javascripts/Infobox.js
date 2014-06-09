@@ -37,11 +37,17 @@
         },
         initialize: function() {
           var that = this;
-          this.collection.on("selected", function(model) {
-              if (that.model == model)
-                that.$el.addClass("active");
-              else
-                that.$el.removeClass("active");
+          this.collection.on("selected unselected", function(model) {
+              if (that.model == model) {
+                  if (that.$el.hasClass("active")) {
+                      that.$el.removeClass("active");
+                  } else {
+                      that.$el.addClass("active");
+                  }
+              } else {
+                  that.$el.removeClass("active");
+              }
+
           })
         },
         render: function() {
@@ -51,7 +57,12 @@
         },
         selected: function(e) {
             e.preventDefault();
-            this.collection.trigger("selected", this.model);
+            if (this.$el.hasClass("active")) {
+                this.collection.trigger("unselected",  this.model);
+            } else {
+                this.collection.trigger("selected",  this.model);
+            }
+
         }
     });
 
@@ -75,8 +86,11 @@
                 var tagView = new HashtagView({model: ht, collection: hashtags});
                 $htUl.append( tagView.render().$el);
             });
+            var that = this;
             this.listenTo(hashtags, "selected", this.showRegion);
-
+            this.listenTo(hashtags, "unselected", function() {
+                that.trigger("marker:unset");
+            });
             this.$content.append('<h2>'+agg._id+'</h2>')
             this.$content.append($htUl);
             this.collection.district = agg._id;
@@ -101,6 +115,9 @@
             $tweetDiv.css({height:containerHeight-ctop + 15});
         },
         showRegion: function(hashtag) {
+            this.trigger("marker:unset");
+            this.trigger("marker:set", hashtag.get('loc'))
+
 
         }
     });

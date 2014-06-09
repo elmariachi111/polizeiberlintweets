@@ -63,6 +63,8 @@
         var infoBox = new Infobox({el: document.getElementById("overlay")});
         infoBox.listenTo(map,"hover:district", infoBox.hintDistrict);
         infoBox.listenTo(map,"selected:district", infoBox.showDistrict);
+        map.listenTo(infoBox,"marker:set", map.setMarker);
+        map.listenTo(infoBox,"marker:unset", map.unsetMarker);
         google.maps.event.addDomListener(window, 'load', map.prepareMap.bind(map));
 
     })

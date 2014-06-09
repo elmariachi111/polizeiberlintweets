@@ -73,7 +73,21 @@ var Map = Backbone.View.extend( {
             callback(that);
         } );
     },
+    setMarker: function(loc) {
+        var ll = new google.maps.LatLng(loc.lat, loc.lon);
+        this.currentMarker = new google.maps.Marker({
+            map: this.gmap,
+            draggable:false,
+            animation: google.maps.Animation.DROP,
+            position: ll
+        });
+    },
+    unsetMarker: function() {
+        if (this.currentMarker) {
+            this.currentMarker.setMap(null);
+        }
 
+    },
     bindMapEvents: function() {
         var gmap = this.gmap;
         var that = this;
@@ -92,7 +106,7 @@ var Map = Backbone.View.extend( {
             gmap.panTo( new google.maps.LatLng (center.lat(), center.lng()+0.1) );
             gmap.setZoom(11);
             gmap.data.revertStyle();
-            gmap.data.overrideStyle(event.feature, {fillOpacity: 0.9});
+            gmap.data.overrideStyle(event.feature, {strokeWeight: 4});
             that.trigger("selected:district", {feature: event.feature, ll: event.latLng})
         });
 
