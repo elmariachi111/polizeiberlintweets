@@ -1,0 +1,56 @@
+<html>
+
+<head>
+
+    <title>Polizeibericht</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?libraries=geometry,visualization&key=AIzaSyCuXcmuT62c-y94gRJxeRkC7MBQsWLLUvU">
+    </script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/handlebars/handlebars.min.js"></script>
+    <script src="bower_components/moment/min/moment.min.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/backbone/backbone.js"></script>
+    <script src="javascripts/MapEx.js"></script>
+    <script src="javascripts/Infobox.js"></script>
+    <link rel="stylesheet" href="stylesheets/main.css" />
+
+</head>
+<body>
+<div id="map-canvas">
+
+</div>
+<div id="overlay">
+    <div class="content">
+
+    </div>
+</div>
+
+<script>
+
+    Handlebars.registerHelper('datefmt', function(date) {
+        var m = moment(date);
+        return m.format("DD.MM.YY HH:mm");
+    });
+
+    $( function() {
+        window.TweetView.prototype.tpl = Handlebars.compile($('#tpl-tweet').html());
+
+        var map = new Map({ el: document.getElementById("map-canvas") });
+
+        var infoBox = new Infobox({el: document.getElementById("overlay")});
+        infoBox.listenTo(map,"hover:district", infoBox.hintDistrict);
+        infoBox.listenTo(map,"selected:district", infoBox.showDistrict);
+        google.maps.event.addDomListener(window, 'load', map.prepareMap.bind(map));
+
+    })
+</script>
+<script id="tpl-tweet" type="text/x-handlebars-template">
+
+    <img class="user" src="{{user.profile_image_url}}" width="50" />
+    {{datefmt created}} {{ text }}
+</script>
+
+</body>
+</html>

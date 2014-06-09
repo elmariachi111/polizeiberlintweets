@@ -1,0 +1,74 @@
+body {
+  padding:0;
+  margin:0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+h1,h2,h3 {
+  margin:0;
+}
+#map-canvas {
+  width:100%;
+  height:100%;
+}
+
+#overlay {
+  position:fixed;
+  right:5px;
+  top:25px;
+  height:90%;
+  width:33%;
+
+  .content {
+    height:98%;
+    width:100%;
+    padding:10px;
+    position: relative;
+    background-color:rgba(255,255,255,0.8);
+    border: 1px solid #ddd;
+    border-radius:4px;
+
+    ul.hashtags {
+      position:relative;
+      list-style-type: none;
+      margin:0;padding:0;
+      li {
+        cursor:pointer;
+        font-size:11px;
+        border-radius:2px;
+        float:left;
+        padding:5px;
+        margin:3px;
+        background-color:#ddd;
+        border-color:#888;
+        &.active {
+          background-color:#888;
+          border-color:#ddd;
+          color:#efefef;
+        }
+      }
+    }
+
+    #tweets {
+      clear:both;
+      overflow:scroll;
+      display:block;
+      margin-right:10px;
+
+      .tweet {
+        clear:both;
+        margin-bottom:15px;
+        img.user {
+          float:left;
+          margin-right:5px;
+          margin-bottom:5px;
+        }
+      }
+
+
+    }
+  }
+
+
+
+}
