@@ -72,6 +72,9 @@ h3 {
 #overlay .content #tweets .tweet a:hover {
   text-decoration: underline;
 }
+#overlay .content #tweets .tweet.hidden {
+  display: none;
+}
 #overlay .content #tweets .tweet .user {
   display: block;
   margin-bottom: 5px;

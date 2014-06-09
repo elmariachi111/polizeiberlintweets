@@ -4,6 +4,13 @@
         parse: function(json) {
             json.created = new Date(json.created);
             return json;
+        },
+        hasTag: function(tag) {
+            var ent = this.get('entities');
+            var hashtags = ent.hashtags;
+            var myTags =  _.pluck(hashtags, "text");
+            return _.contains(myTags, tag);
+
         }
     });
 
@@ -24,6 +31,19 @@
             var json = this.model.toJSON();
             this.$el.html(this.tpl(json));
             return this;
+        },
+        filter: function(hashtag) {
+            var ht = hashtag.get('tag');
+
+            if (!this.model.hasTag(ht)) {
+                this.$el.addClass("hidden");
+            } else {
+                this.$el.removeClass("hidden");
+            }
+
+        },
+        show: function() {
+            this.$el.removeClass("hidden");
         }
     });
 
@@ -47,8 +67,8 @@
               } else {
                   that.$el.removeClass("active");
               }
+          });
 
-          })
         },
         render: function() {
             var html = '#' + this.model.get('tag');
@@ -70,25 +90,27 @@
     window.Infobox = Backbone.View.extend({
         initialize: function() {
             this.collection = new Tweets;
-
+            this.hashtags = null;
             this.listenTo(this.collection, "reset", this.renderTweets);
+
             this.$content = this.$('.content');
 
         },
 
         showDistrict: function(evt) {
             this.$content.html('');
-
+            this.trigger("marker:unset");
             var agg = evt.feature.getProperty("aggregation");
-            var hashtags = new Backbone.Collection(agg.geos);
+            this.hashtags = new Backbone.Collection(agg.geos);
             var $htUl = $('<ul class="hashtags"></ul>')
-            hashtags.forEach( function (ht) {
-                var tagView = new HashtagView({model: ht, collection: hashtags});
+            var that = this;
+            this.hashtags.forEach( function (ht) {
+                var tagView = new HashtagView({model: ht, collection: that.hashtags});
                 $htUl.append( tagView.render().$el);
             });
-            var that = this;
-            this.listenTo(hashtags, "selected", this.showRegion);
-            this.listenTo(hashtags, "unselected", function() {
+
+            this.listenTo(this.hashtags, "selected", this.showRegion);
+            this.listenTo(this.hashtags, "unselected", function() {
                 that.trigger("marker:unset");
             });
             this.$content.append('<h2>'+agg._id+'</h2>')
@@ -106,7 +128,9 @@
             this.collection.forEach( function (tweet) {
                 var tweetView = new TweetView({
                     model: tweet, collection: that.tweets
-                })
+                });
+                tweetView.listenTo(that.hashtags,"selected", tweetView.filter);
+                tweetView.listenTo(that.hashtags,"unselected", tweetView.show);
                 $tweetDiv.append( tweetView.render().$el);
             });
             this.$content.append($tweetDiv);
@@ -117,8 +141,7 @@
         showRegion: function(hashtag) {
             this.trigger("marker:unset");
             this.trigger("marker:set", hashtag.get('loc'))
-
-
+            this.collection.trigger("filter", hashtag);
         }
     });
 
