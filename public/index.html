@@ -12,6 +12,7 @@
     <script src="bower_components/moment/min/moment.min.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/backbone/backbone.js"></script>
+    <script src="javascripts/intents.js"></script>
     <script src="javascripts/MapEx.js"></script>
     <script src="javascripts/Infobox.js"></script>
     <link rel="stylesheet" href="stylesheets/main.css" />
@@ -33,6 +34,26 @@
         var m = moment(date);
         return m.format("DD.MM.YY HH:mm");
     });
+    Handlebars.registerHelper('tweettxt', function(tweet) {
+
+        var  txt = tweet.text;
+        var res = "";
+        var hts = tweet.entities.hashtags;
+        if (hts.length > 0 ) {
+            var cur = 0;
+            _.forEach(hts, function(ht) {
+                res += txt.substr(cur, ht.indices[0]-cur);
+                var lnk = 'https://twitter.com/hashtag/'+ht.text+'?src=hash';
+                res += ' <a href="'+lnk+'" target="_blank">'+'#'+ht.text+'</a> ';
+                cur = ht.indices[1];
+            });
+            res += txt.substr(cur);
+        } else {
+            res = tweet.text;
+        }
+        return res;
+    });
+
 
     $( function() {
         window.TweetView.prototype.tpl = Handlebars.compile($('#tpl-tweet').html());
@@ -47,9 +68,19 @@
     })
 </script>
 <script id="tpl-tweet" type="text/x-handlebars-template">
+    <div class="user">
+        <a href="https://twitter.com/{{user.screen_name}}" target="_blank"><img class="user" src="{{user.profile_image_url}}" width="50" /></a>
+        <h3><a href="https://twitter.com/{{user.screen_name}}" target="_blank">{{user.name}}</a></h3>
+        <small><a href="https://twitter.com/{{user.screen_name}}" target="_blank">@{{user.screen_name}}</a></small>
+    </div>
+    <p class="text">{{{tweettxt . }}}</p>
+    <div class="date"> <a href="https://twitter.com/{{user.screen_name}}/status/{{id_str}}" target="_blank">{{datefmt created}}</a> </div>
+    <div class="actions">
+        <p><a href="https://twitter.com/intent/tweet?in_reply_to={{id_str}}"><i class="glyph reply"> </i>Antworten</a></p>
+        <p><a href="https://twitter.com/intent/retweet?tweet_id={{id_str}}"><i class="glyph retweet"> </i>Retweeten</a></p>
+        <p><a href="https://twitter.com/intent/favorite?tweet_id={{id_str}}"><i class="glyph favorite"> </i>Favorisieren</a></p>
 
-    <img class="user" src="{{user.profile_image_url}}" width="50" />
-    {{datefmt created}} {{ text }}
+    </div>
 </script>
 
 </body>

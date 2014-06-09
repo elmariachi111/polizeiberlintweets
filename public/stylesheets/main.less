@@ -54,14 +54,94 @@ h1,h2,h3 {
       overflow:scroll;
       display:block;
       margin-right:10px;
-
       .tweet {
+
         clear:both;
-        margin-bottom:15px;
-        img.user {
-          float:left;
-          margin-right:5px;
+        background-color:white;
+        border-radius:2px;
+        border:1px solid #ddd;
+        padding: 10px;
+        margin: 0px 15px 15px 3px;
+        position:relative;
+        a:link, a:active,a:visited {
+          text-decoration:none;
+        }
+        a:hover {
+          text-decoration:underline;
+        }
+        .user {
+          display:block;
           margin-bottom:5px;
+          img {
+            width:30px;
+            float:left;
+            margin-right:5px;
+          }
+          h3, h3 a {
+            font-size:13px;
+            font-weight:bold;
+            color: #222;
+          }
+          small, small a {
+            font-size:11px;
+            font-weight:normal;
+            color:#999;
+          }
+        }
+        p.text {
+          clear:both;
+          a {
+            color:#3b88c3;
+          }
+        }
+        .date, .date a {
+          color:#ddd;
+          font-size:11px;
+        }
+
+        .actions {
+          position:absolute;
+          bottom: 0px;
+          right:10px;
+          p {
+            float:left;
+            margin-left:10px;
+            font-size:10px;
+            a:link, a:active,a:visited {
+              color: #ddd;
+            }
+            a:hover {
+              color:#3b88c3
+            }
+          }
+          i.glyph {
+            background-image:url('/images/everything-spritev2.png');
+
+            width: 16px;
+            height: 16px;
+            margin-right: 3px;
+            display: inline;
+            float: left;
+            margin-top: -3px;
+            &.retweet {
+              background-position: -80px 0px;
+              &:hover {
+                background-position: -96px 0px;
+              }
+            }
+            &.reply {
+              background-position: 0px 0px;
+              &:hover {
+                background-position: -16px 0px;
+              }
+            }
+            &.favorite {
+              background-position: -32px 0px;
+              &:hover {
+                background-position: -48px 0px;
+              }
+            }
+          }
         }
       }
 

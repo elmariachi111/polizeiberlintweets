@@ -57,10 +57,95 @@ h3 {
 }
 #overlay .content #tweets .tweet {
   clear: both;
-  margin-bottom: 15px;
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 0px 15px 15px 3px;
+  position: relative;
 }
-#overlay .content #tweets .tweet img.user {
+#overlay .content #tweets .tweet a:link,
+#overlay .content #tweets .tweet a:active,
+#overlay .content #tweets .tweet a:visited {
+  text-decoration: none;
+}
+#overlay .content #tweets .tweet a:hover {
+  text-decoration: underline;
+}
+#overlay .content #tweets .tweet .user {
+  display: block;
+  margin-bottom: 5px;
+}
+#overlay .content #tweets .tweet .user img {
+  width: 30px;
   float: left;
   margin-right: 5px;
-  margin-bottom: 5px;
+}
+#overlay .content #tweets .tweet .user h3,
+#overlay .content #tweets .tweet .user h3 a {
+  font-size: 13px;
+  font-weight: bold;
+  color: #222;
+}
+#overlay .content #tweets .tweet .user small,
+#overlay .content #tweets .tweet .user small a {
+  font-size: 11px;
+  font-weight: normal;
+  color: #999;
+}
+#overlay .content #tweets .tweet p.text {
+  clear: both;
+}
+#overlay .content #tweets .tweet p.text a {
+  color: #3b88c3;
+}
+#overlay .content #tweets .tweet .date,
+#overlay .content #tweets .tweet .date a {
+  color: #ddd;
+  font-size: 11px;
+}
+#overlay .content #tweets .tweet .actions {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+}
+#overlay .content #tweets .tweet .actions p {
+  float: left;
+  margin-left: 10px;
+  font-size: 10px;
+}
+#overlay .content #tweets .tweet .actions p a:link,
+#overlay .content #tweets .tweet .actions p a:active,
+#overlay .content #tweets .tweet .actions p a:visited {
+  color: #ddd;
+}
+#overlay .content #tweets .tweet .actions p a:hover {
+  color: #3b88c3;
+}
+#overlay .content #tweets .tweet .actions i.glyph {
+  background-image: url('/images/everything-spritev2.png');
+  width: 16px;
+  height: 16px;
+  margin-right: 3px;
+  display: inline;
+  float: left;
+  margin-top: -3px;
+}
+#overlay .content #tweets .tweet .actions i.glyph.retweet {
+  background-position: -80px 0px;
+}
+#overlay .content #tweets .tweet .actions i.glyph.retweet:hover {
+  background-position: -96px 0px;
+}
+#overlay .content #tweets .tweet .actions i.glyph.reply {
+  background-position: 0px 0px;
+}
+#overlay .content #tweets .tweet .actions i.glyph.reply:hover {
+  background-position: -16px 0px;
+}
+#overlay .content #tweets .tweet .actions i.glyph.favorite {
+  background-position: -32px 0px;
+}
+#overlay .content #tweets .tweet .actions i.glyph.favorite:hover {
+  background-position: -48px 0px;
 }
