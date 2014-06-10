@@ -23,8 +23,68 @@
 
 </div>
 <div id="overlay">
-    <div class="content">
+    <div class="content" id="tweetpane">
+        <h2 class="ghost">Klicke auf einen Bezirk, um Tweets anzuzeigen</h2>
+    </div>
+    <div class="content scroll hidden" id="impressum">
+        <div class="action-close"><a href="#">schließen</a></div>
+        <h2>Impressum</h2>
+        <p>Gemacht und technisch verantwortlich (aber selbstverständlich nicht für den Inhalt der Tweets, die stammen von der Polizei)
+        im Sinne des Telemedien- oder sonstwas-Gesetzes ist zu 100%:</p>
+        <p><b>Stefan Adolf</b></p>
+        <p>Ufnaustr 12</p>
+        <p>10553 Berlin <b>Moabit</b> <small>&lt;-- geht ab</small></p>
 
+        <p>Aber wenn Du mich wirklich kontaktieren willst, probiers bitte mit modernen
+        Kommunikationskanälen wie diesen hier:
+        <a href="https://twitter.com/stadolf" target="_blank">Twitter</a>
+        <a href="http://de.linkedin.com/in/stadolf" target="_blank">LinkedIn</a>
+        <a href="https://www.xing.com/profile/Stefan_Adolf" target="_blank">XING</a>
+        </p>
+
+        <p>PS, Thema Datenschutz: Die Karte im Hintergrund wirst Du bereits zweifelsfrei als von Google
+        bereitgestellt identifiziert haben. Die haben Deine Cookies, dagegen kann man nix machen. Die gute
+        Nachricht ist aber, dass Du keinen Twitter-Account brauchst, um die Tweets hier zu lesen. Ich verwende
+        auch keine Twitter-Bibliothek in Deinem Browser, um Tweets darzustellen, Bilder von Twitter zu laden oder
+        die Popups fürs Retweeten etc. darzustellen (sondern einen WebIntent-Hook, der Dich erst nach einem Klick zu
+        einer Seite von Twitter leitet). So gesehen bist Du hier relativ anonym. Ich sammele nämlich auch keinerlei
+        sonstigen Daten von Dir :)</p>
+    </div>
+    <div class="content hidden scroll" id="wasistdas">
+        <div class="action-close"><a href="#">schließen</a></div>
+        <h2>Was ist das ?</h2>
+        <p> Vom 06. Juni bis zum 07. Juni 2014 dokumentierte die Berliner Polizei nahtlos ihre Einsätze im Berline Stadtgebiet unter
+            dem Twitter-Handle <a href="https://twitter.com/PolizeiBerlin_E" target="_blank">@PolizeiBerlin_E</a>. Das bislang
+            einmalige Experiment, das unter anderem auch als PR-Aktion zur Rekrutierung von Nachwuchs gedacht war, sorgte dafür,
+            dass der Account binnen 48h fast 20.000 Follower sammeln konnte. Ganz klar: die Berliner interessieren sich dafür,
+            was in ihrer Stadt passiert und warum es in ihren Straßen blau leuchtet. </p>
+        <p>
+        <p>Mehr über die Aktion
+            <ul>
+                <li>Im Original: <a href="https://twitter.com/PolizeiBerlin_E" target="_blank">@PolizeiBerlin_E</a></li>
+                <li>Bei Golem: <a href="http://www.golem.de/news/polizei-beim-dauertwittern-in-kreuzberg-fiel-ein-motorroller-um-1406-107038.html" target="_blank">In #Kreuzberg fiel ein Motorroller um</a></li>
+                <li>Bei Heise: <a href="http://www.heise.de/newsticker/meldung/Berliner-Polizei-zufrieden-mit-Twitter-Aktion-24hPolizei-2217830.html" target="_blank">Berliner Polizei zufrieden mit Twitter-Aktion #24hPolizei</a></li>
+                <li>Bei SPON: <a href="http://www.spiegel.de/netzwelt/web/einmalige-aktion-berliner-polizei-twittert-24-stunden-ueber-einsaetze-a-973969.html" target="_blank">"Mann streift ohne Hose durch #Mitte": Berliner Polizei twittert ihre Einsätze</a> </li>
+            </ul>
+        </p>
+        <p>Diese Applikation visualisiert die Tweets anhand der Hashtags, die die Kollegen aus der Zentrale
+           genutzt haben. Da die Beamten im Außendienst natürlich nicht in Echtzeit aus dem Funkwagen twitterten,
+           sind die Tweets nicht standortbehaftet. Ich habe die Hashtags so gut es ging Bezirken und Unterbezirken
+           in Berlin zugeordnet, sie durchsortiert, gezählt und hier visualisiert. Oder besser gesagt, MongoDB
+           übernimmt das Zählen und Auswerten, aber das ist eine andere Geschichte.
+        </p>
+        <p>Ich habe das nicht gemacht, weil ich von irgendwem dafür bezahlt werde (nein, wirklich nicht), oder
+            weil ich auf irgendwelche Missstände hinweisen will. Ich hab es gemacht, weil... ich es kann.
+            Technisch ist das ganze natürlich nicht weltbewegend, aber es war ein verlängertes Wochenende Bastelarbeit.
+            Wer mehr wissen will, folgt oder fragt  <a href="https://twitter.com/stadolf" target="_blank">@stadolf</a> bei Twitter.
+            Ach, und da das ja die meisten lustig oder fragwürdig finden: ja, ich heiße wirklich so und der Name
+            ist nicht Programm. Nazi bin ich nur in Bezug auf Code.
+        </p>
+
+    </div>
+    <div class="footer">
+        <a href="#was-ist-das">Was ist das?</a> |
+        <a href="#impressum">Impressum</a>
     </div>
 </div>
 
@@ -66,6 +126,20 @@
         map.listenTo(infoBox,"marker:set", map.setMarker);
         map.listenTo(infoBox,"marker:unset", map.unsetMarker);
         google.maps.event.addDomListener(window, 'load', map.prepareMap.bind(map));
+
+        var Router =  Backbone.Router.extend({
+            initialize: function() {
+                this.route("impressum", "impressum", infoBox.imprint.bind(infoBox));
+                this.route("was-ist-das", "wasistdas", infoBox.whatsthat.bind(infoBox));
+                this.route("", "tweetpane", infoBox.tweetpane.bind(infoBox));
+            }
+        });
+        var defRouter = new Router;
+        infoBox.listenTo(map,"selected:district", function() {
+            defRouter.navigate("",{trigger:true});
+        });
+
+        Backbone.history.start({pushState: false});
 
     })
 </script>

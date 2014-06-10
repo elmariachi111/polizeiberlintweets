@@ -12,6 +12,9 @@ h3 {
   width: 100%;
   height: 100%;
 }
+.hidden {
+  display: none;
+}
 #overlay {
   position: fixed;
   right: 5px;
@@ -27,6 +30,23 @@ h3 {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+#overlay .content h2.ghost {
+  color: #ccc;
+  margin-top: 150px;
+  text-align: center;
+}
+#overlay .content .action-close {
+  position: absolute;
+  right: 25px;
+  top: 10px;
+}
+#overlay .content.scroll {
+  overflow-y: scroll;
+  padding-bottom: 0px;
+}
+#overlay .content.scroll p {
+  margin-right: 25px;
 }
 #overlay .content ul.hashtags {
   position: relative;
@@ -71,9 +91,6 @@ h3 {
 }
 #overlay .content #tweets .tweet a:hover {
   text-decoration: underline;
-}
-#overlay .content #tweets .tweet.hidden {
-  display: none;
 }
 #overlay .content #tweets .tweet .user {
   display: block;
@@ -151,4 +168,17 @@ h3 {
 }
 #overlay .content #tweets .tweet .actions i.glyph.favorite:hover {
   background-position: -48px 0px;
+}
+#overlay .footer {
+  position: absolute;
+  bottom: -12px;
+  background-color: #fff;
+  width: 100%;
+  margin-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+}
+#overlay .footer a {
+  color: #3b88c3;
 }

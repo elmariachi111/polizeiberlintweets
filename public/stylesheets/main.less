@@ -12,6 +12,10 @@ h1,h2,h3 {
   height:100%;
 }
 
+.hidden {
+  display:none;
+}
+
 #overlay {
   position:fixed;
   right:5px;
@@ -27,6 +31,23 @@ h1,h2,h3 {
     background-color:rgba(255,255,255,0.8);
     border: 1px solid #ddd;
     border-radius:4px;
+    h2.ghost {
+      color:#ccc;
+      margin-top:150px;
+      text-align:center;
+    }
+    .action-close {
+      position:absolute;
+      right:25px;
+      top:10px;
+    }
+    &.scroll{
+      overflow-y: scroll;
+      padding-bottom:0px;
+      p {
+        margin-right:25px;
+      }
+    }
 
     ul.hashtags {
       position:relative;
@@ -68,10 +89,6 @@ h1,h2,h3 {
         }
         a:hover {
           text-decoration:underline;
-        }
-
-        &.hidden {
-          display:none;
         }
 
         .user {
@@ -116,7 +133,7 @@ h1,h2,h3 {
               color: #ddd;
             }
             a:hover {
-              color:#3b88c3
+              color:#3b88c3;
             }
           }
           i.glyph {
@@ -154,6 +171,19 @@ h1,h2,h3 {
     }
   }
 
+  .footer {
+    position: absolute;
+    bottom: -12px;
+    background-color: #fff;
+    width: 100%;
+    margin-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    a {
+      color:#3b88c3;
+    }
+  }
 
 
 }

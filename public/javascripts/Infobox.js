@@ -93,11 +93,12 @@
             this.hashtags = null;
             this.listenTo(this.collection, "reset", this.renderTweets);
 
-            this.$content = this.$('.content');
+            this.$content = this.$('#tweetpane');
 
         },
 
         showDistrict: function(evt) {
+
             this.$content.html('');
             this.trigger("marker:unset");
             var agg = evt.feature.getProperty("aggregation");
@@ -136,12 +137,24 @@
             this.$content.append($tweetDiv);
             var ctop = $tweetDiv.position().top;
             var containerHeight = $('.content').height();
-            $tweetDiv.css({height:containerHeight-ctop + 15});
+            $tweetDiv.css({height:containerHeight-ctop });
         },
         showRegion: function(hashtag) {
             this.trigger("marker:unset");
             this.trigger("marker:set", hashtag.get('loc'))
             this.collection.trigger("filter", hashtag);
+        },
+        imprint: function() {
+            this.$('.content').addClass("hidden");
+            this.$('#impressum').removeClass("hidden");
+        },
+        whatsthat: function() {
+            this.$('.content').addClass("hidden");
+            this.$('#wasistdas').removeClass("hidden");
+        },
+        tweetpane: function() {
+            this.$('.content').addClass("hidden");
+            this.$('#tweetpane').removeClass("hidden");
         }
     });
 
