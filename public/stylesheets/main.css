@@ -117,7 +117,7 @@ h3 {
   clear: both;
 }
 #overlay .content #tweets .tweet p.text a {
-  color: #3b88c3;
+  color: #2e6795;
 }
 #overlay .content #tweets .tweet .date,
 #overlay .content #tweets .tweet .date a {
@@ -181,4 +181,37 @@ h3 {
 }
 #overlay .footer a {
   color: #3b88c3;
+}
+#github {
+  left: -65px;
+  height: 30px;
+  top: 40px;
+  position: fixed;
+  text-decoration: none;
+  width: 250px;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+#github span {
+  background: black;
+  color: white;
+  font-size: 14px;
+  left: 0;
+  padding: 5px 0;
+  position: absolute;
+  text-align: center;
+  width: 250px;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 10px;
+  transition: opacity 0.5s;
+}
+#github span:last-child {
+  background: #3995ff;
+  opacity: 0;
+}
+#github span:hover:first-child {
+  opacity: 0;
+}
+#github span:hover:last-child {
+  opacity: 1;
 }

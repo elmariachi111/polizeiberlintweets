@@ -113,7 +113,7 @@ h1,h2,h3 {
         p.text {
           clear:both;
           a {
-            color:#3b88c3;
+            color: #2e6795;
           }
         }
         .date, .date a {
@@ -185,5 +185,42 @@ h1,h2,h3 {
     }
   }
 
+
+}
+
+#github {
+  left: -65px;
+  height: 30px;
+  top: 40px;
+  position: fixed;
+  text-decoration: none;
+  width: 250px;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+
+  span {
+    background: black;
+    color: white;
+    font-size: 14px;
+    left: 0;
+    padding: 5px 0;
+    position: absolute;
+    text-align: center;
+    width: 250px;
+    box-shadow: rgba(0,0,0, 0.2) 1px 1px 10px;
+    transition: opacity 0.5s;
+    &:last-child {
+      background: #3995ff;
+      opacity: 0;
+    }
+
+    &:hover:first-child {
+      opacity: 0;
+    }
+    &:hover:last-child {
+      opacity: 1;
+    }
+  }
 
 }
